@@ -12,10 +12,39 @@
           <option value="designer">Web Designer</option>
       </select>
 
+      <div>
+          <label>Skills : </label>
+          <input type="text" v-model="tempSkill" @keyup.alt="addSkills"/>
+          <ul>
+          <div v-for="skill in skills" :key="skill" class="pill">
+              <!-- <li @click="deleteSkill(skill)"> {{ skill }} </li> -->
+              <span @click="deleteSkill(skill)">{{ skill }}</span>
+          </div>
+          </ul>
+      </div>
+
       <div class="terms">
           <input type="checkbox" v-model="terms" required>
           <label>* Accept terms and conditions</label>
-      </div>    
+      </div>
+
+      
+      <!-- 
+          In case of multiple checkboxes
+      <div>
+          <input type="checkbox" value="muslim" v-model="names">
+          <label>Muslim</label>
+      </div>
+
+      <div>
+          <input type="checkbox" value="christian" v-model="names">
+          <label>Christian</label>
+      </div>
+
+      <div>
+          <input type="checkbox" value="jewish" v-model="names">
+          <label>Jewish</label> 
+      </div> -->     
   </form>
   Email : {{ email }} <br>
   Password : {{ password }} <br>
@@ -32,6 +61,22 @@ export default {
             password: '',
             role: '',
             terms: false,
+            //names: [],
+            tempSkill: '',
+            skills: [],
+        }
+    },
+    methods: {
+        addSkills (e) {
+            if (e.key === ';' && this.tempSkill){
+                if(!this.skills.includes(this.tempSkill)){
+                    this.skills.push(this.tempSkill);
+                }
+                this.tempSkill = '';
+            }
+        },
+        deleteSkill (skill) {
+            this.skills = this.skills.filter(item => item != skill );
         }
     }
 }
@@ -76,4 +121,16 @@ export default {
         top: 2px
     }
 
+    .pill {
+        background: #eee;
+        display: inline-block;
+        margin: 20px 10px 0 0;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        letter-spacing: 1px;
+        font-weight: bold;
+        color: #777;
+        cursor: pointer;
+    }
 </style>
